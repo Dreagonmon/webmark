@@ -101,15 +101,15 @@ const copyBookmarkRecord = (bmkObj) => {
 
 /** @type {(text: string) => string} */
 export const replaceSpecialChar = (text) => {
-  return text.replaceAll("`", "'")
-}
+  return text.replaceAll("`", "'");
+};
 
 /** @type {(text: string) => void} */
 const checkSpecialChar = (text) => {
   if (text.indexOf("`") >= 0) {
-    throw new Error(`Bad Char '\`': ${text}`)
+    throw new Error(`Bad Char '\`': ${text}`);
   }
-}
+};
 
 export class BookmarksManager {
   /** @type {Bookmarks} */
@@ -134,8 +134,8 @@ export class BookmarksManager {
    * @param {string} title 
    */
   addBookmark (url, title) {
-    checkSpecialChar(url)
-    checkSpecialChar(title)
+    checkSpecialChar(url);
+    checkSpecialChar(title);
     if (!this.hasBookmarkRecord(url)) {
       const bmkObj = newBookmarkRecord();
       bmkObj.url = url;
@@ -173,7 +173,7 @@ export class BookmarksManager {
    * @param {string} title 
    */
   updateBookmarkTitle (url, title) {
-    checkSpecialChar(title)
+    checkSpecialChar(title);
     if (this.hasBookmarkRecord(url)) {
       const bmkObj = this.#bmk.bookmarks.get(url);
       if (bmkObj.title !== title) {
@@ -190,7 +190,7 @@ export class BookmarksManager {
    * @param {string} tag 
    */
   addTagFor (url, tag) {
-    checkSpecialChar(tag)
+    checkSpecialChar(tag);
     if (this.hasBookmarkRecord(url)) {
       const bmkObj = this.#bmk.bookmarks.get(url);
       if (!bmkObj.tags.has(tag)) {
@@ -241,8 +241,8 @@ export class BookmarksManager {
    * @param {string} kw 
    */
   addKeywordFor (tag, kw) {
-    checkSpecialChar(tag)
-    checkSpecialChar(kw)
+    checkSpecialChar(tag);
+    checkSpecialChar(kw);
     kw = kw.toLocaleLowerCase();
     if (this.hasTagInfo(tag)) {
       const tagObj = this.#bmk.tags.get(tag);
@@ -339,13 +339,13 @@ export class BookmarksManager {
 
   /** @type {() => Set<string>} */
   listTags () {
-    const lst = new Set()
+    const lst = new Set();
     for (const tag of this.#bmk.tags.keys()) {
       if (this.hasTagInfo(tag)) {
-        lst.add(tag)
+        lst.add(tag);
       }
     }
-    return lst
+    return lst;
   }
 
   /**
@@ -353,24 +353,24 @@ export class BookmarksManager {
    * @param {Set<string>} [tagFilters]
    * @returns {Set<string>}
    */
-  listBookmarks (tagFilters=new Set()) {
-    const lst = new Set()
-    for (const [url, bmkObj] of this.#bmk.bookmarks) {
+  listBookmarks (tagFilters = new Set()) {
+    const lst = new Set();
+    for (const [ url, bmkObj ] of this.#bmk.bookmarks) {
       if (!this.hasBookmarkRecord(url)) {
-        continue
+        continue;
       }
-      let match = true
+      let match = true;
       for (const tag of tagFilters) {
         if (!bmkObj.tags.has(tag)) {
-          match = false
+          match = false;
           break;
         }
       }
       if (match) {
-        lst.add(url)
+        lst.add(url);
       }
     }
-    return lst
+    return lst;
   }
 
   /**
@@ -693,7 +693,7 @@ if (import.meta.main) {
   // console.log(changed)
   // bm2._print()
   // bm2._print()
-  console.log(bm1.listBookmarks(new Set([])))
+  console.log(bm1.listBookmarks(new Set([])));
 
   // print
   const data = bm1.toJSON();
